@@ -4,6 +4,7 @@ import Home.*;
 import Home.Kitchen.Refrigerator;
 import com.zeroc.Ice.Current;
 import devices.DeviceImpl;
+import server.Server;
 import utils.TemperatureUtil;
 
 public class RefrigeratorImpl extends DeviceImpl implements Refrigerator {
@@ -12,6 +13,8 @@ public class RefrigeratorImpl extends DeviceImpl implements Refrigerator {
 
     @Override
     public void setFridgeTemperature(Temperature temperature, Current current) throws TemperatureRangeError {
+        Server.logger.info("Set temperature for refrigerator");
+
         if (!TemperatureUtil.tempInRange(temperature, 2, 12, TempUnit.CELSIUS)) {
             if (temperature.unit == TempUnit.CELSIUS) {
                 throw new TemperatureRangeError("Invalid temperature value.", 2, 12, TempUnit.CELSIUS);
@@ -27,6 +30,8 @@ public class RefrigeratorImpl extends DeviceImpl implements Refrigerator {
 
     @Override
     public Temperature getFridgeTemperature(Current current) throws SwitchedOffError {
+        Server.logger.info("Get temperature of refrigerator");
+
         if (super.powerState == PowerState.OFF) {
             throw new SwitchedOffError("Refrigerator is switched off.");
         }
@@ -35,6 +40,7 @@ public class RefrigeratorImpl extends DeviceImpl implements Refrigerator {
 
     @Override
     public void setTempUnit(TempUnit unit, Current current) {
+        Server.logger.info("Set temperature unit for refrigerator");
         TemperatureUtil.convertTemp(unit, fridgeTemperature);
     }
 }

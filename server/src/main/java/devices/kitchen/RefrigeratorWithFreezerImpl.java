@@ -3,6 +3,7 @@ package devices.kitchen;
 import Home.*;
 import Home.Kitchen.RefrigeratorWithFreezer;
 import com.zeroc.Ice.Current;
+import server.Server;
 import utils.TemperatureUtil;
 
 public class RefrigeratorWithFreezerImpl extends RefrigeratorImpl implements RefrigeratorWithFreezer {
@@ -13,6 +14,8 @@ public class RefrigeratorWithFreezerImpl extends RefrigeratorImpl implements Ref
 
     @Override
     public void setFreezerTemperature(Temperature temperature, Current current) throws SwitchedOffError, TemperatureRangeError {
+        Server.logger.info("Set freezer temperature");
+
         if (super.powerState == PowerState.OFF) {
             throw new SwitchedOffError("Refrigerator is switched off.");
         }
@@ -31,6 +34,8 @@ public class RefrigeratorWithFreezerImpl extends RefrigeratorImpl implements Ref
 
     @Override
     public Temperature getFreezerTemperature(Current current) throws SwitchedOffError {
+        Server.logger.info("Get temperature of refrigerator");
+
         if (super.powerState == PowerState.OFF) {
             throw new SwitchedOffError("Refrigerator is switched off.");
         }
@@ -39,6 +44,9 @@ public class RefrigeratorWithFreezerImpl extends RefrigeratorImpl implements Ref
 
     @Override
     public boolean isTurboFreezingOn(Current current) throws SwitchedOffError {
+        Server.logger.info("Check if freezer is in turbo mode");
+
+
         if (super.powerState == PowerState.OFF) {
             throw new SwitchedOffError("Refrigerator is switched off.");
         }
@@ -47,6 +55,8 @@ public class RefrigeratorWithFreezerImpl extends RefrigeratorImpl implements Ref
 
     @Override
     public void setTurboFreezing(boolean turboFreezing, Current current) throws SwitchedOffError {
+        Server.logger.info("Set turbo freezing");
+
         if (super.powerState == PowerState.OFF) {
             throw new SwitchedOffError("Refrigerator is switched off.");
         }
@@ -56,6 +66,8 @@ public class RefrigeratorWithFreezerImpl extends RefrigeratorImpl implements Ref
 
     @Override
     public void setTempUnit(TempUnit unit, Current current) {
+        Server.logger.info("Set temperature unit for refrigerator and freezer");
+
         super.setTempUnit(unit, current);
         TemperatureUtil.convertTemp(unit, freezerTemperature);
     }

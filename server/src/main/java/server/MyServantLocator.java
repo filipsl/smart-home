@@ -1,3 +1,5 @@
+package server;
+
 import com.zeroc.Ice.*;
 import com.zeroc.Ice.Object;
 import devices.DeviceImpl;
@@ -26,6 +28,7 @@ public class MyServantLocator implements ServantLocator {
         String name = current.id.name;
 
         DeviceImpl servant = null;
+        Server.logger.info("ServantLocator is looking for servant - name: " + name + ", category: " + category);
 
         if (category.equals("ac")) {
             if (name.equals("ac1")) {
@@ -53,13 +56,14 @@ public class MyServantLocator implements ServantLocator {
         if (servant != null) {
             adapter.add(servant, new Identity(name, category));
             deviceImplList.add(servant);
+            Server.logger.info("ServantLocator initialized new servant - name: " + name + ", category " + category);
             return new LocateResult(servant, null);
         }
         return null;
     }
 
     @Override
-    public void finished(Current current, Object object, java.lang.Object o) throws UserException {
+    public void finished(Current current, Object object, java.lang.Object o) {
 
     }
 

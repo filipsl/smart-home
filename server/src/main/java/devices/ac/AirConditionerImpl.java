@@ -4,6 +4,7 @@ import Home.*;
 import Home.AC.AirConditioner;
 import com.zeroc.Ice.Current;
 import devices.DeviceImpl;
+import server.Server;
 import utils.TemperatureUtil;
 
 public class AirConditionerImpl extends DeviceImpl implements AirConditioner {
@@ -14,6 +15,7 @@ public class AirConditionerImpl extends DeviceImpl implements AirConditioner {
 
     @Override
     public void setTargetTemperature(Temperature temp, Current current) throws TemperatureRangeError {
+        Server.logger.info("Set target temperature");
 
 
         if (!TemperatureUtil.tempInRange(temp, 10, 20, TempUnit.CELSIUS)) {
@@ -30,11 +32,15 @@ public class AirConditionerImpl extends DeviceImpl implements AirConditioner {
 
     @Override
     public Temperature getTargetTemperature(Current current) {
+        Server.logger.info("Get target temperature");
+
         return targetTemp;
     }
 
     @Override
     public void setAutoStart(AutoStartParams autoStartParams, Current current) throws DurationError, TimeRangeError {
+        Server.logger.info("Set automatic start parameters");
+
         if (autoStartParams.timeOfDay.hour < 0
                 || autoStartParams.timeOfDay.hour > 23
                 || autoStartParams.timeOfDay.minute < 0
@@ -52,6 +58,8 @@ public class AirConditionerImpl extends DeviceImpl implements AirConditioner {
 
     @Override
     public AutoStartParams getAutoStartParams(Current current) throws NotDefinedError {
+        Server.logger.info("Get automatic start parameters");
+
         if (autoStartParams == null) {
             throw new NotDefinedError("Auto start parameters were not specified.");
         }

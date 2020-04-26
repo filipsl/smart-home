@@ -5,6 +5,7 @@ import Home.Kitchen.BakingParams;
 import Home.Kitchen.Oven;
 import com.zeroc.Ice.Current;
 import devices.DeviceImpl;
+import server.Server;
 import utils.TemperatureUtil;
 
 public class OvenImpl extends DeviceImpl implements Oven {
@@ -14,6 +15,7 @@ public class OvenImpl extends DeviceImpl implements Oven {
 
     @Override
     public void startBaking(BakingParams bakingParams, Current current) throws DurationError, SwitchedOffError, TemperatureRangeError {
+        Server.logger.info("Start baking");
 
         if (super.powerState == PowerState.OFF) {
             throw new SwitchedOffError("Oven is switched off.");
@@ -40,6 +42,7 @@ public class OvenImpl extends DeviceImpl implements Oven {
 
     @Override
     public boolean isBakingNow(Current current) throws SwitchedOffError {
+        Server.logger.info("Check if baking is going on");
 
         if (super.powerState == PowerState.OFF) {
             throw new SwitchedOffError("Oven is switched off.");
@@ -65,6 +68,8 @@ public class OvenImpl extends DeviceImpl implements Oven {
 
     @Override
     public BakingParams getBakingParams(Current current) throws NotDefinedError, SwitchedOffError {
+        Server.logger.info("Get parameters of baking");
+
 
         if (super.powerState == PowerState.OFF) {
             throw new SwitchedOffError("Oven is switched off.");
