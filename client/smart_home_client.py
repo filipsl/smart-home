@@ -6,10 +6,7 @@ import Ice
 from Home.Kitchen import RefrigeratorPrx, RefrigeratorWithFreezerPrx, RefrigeratorWithRadioPrx, OvenPrx
 from Home.AC import AirConditionerPrx, AirConditionerPurifierPrx
 
-from smart_home_commands import get_power_state, set_power_state, set_fridge_temp, set_temp_unit, set_freezer_temp, \
-    get_freezer_temp, set_turbo, get_turbo, set_freq, get_freq, set_radio_power_state, get_radio_power_state, \
-    set_ac_temp, get_ac_temp, set_auto, get_auto, set_ac_level, get_ac_level, get_puri, start_baking, is_baking, \
-    get_baking, get_fridge_temp, set_radio_level, get_radio_level
+from smart_home_commands import *
 
 
 class Command:
@@ -85,7 +82,7 @@ class SmartHomeClient:
 
         commands = base_commands + ac_commands
         base = communicator.propertyToProxy('AC1.Proxy')
-        self.devices_params.append(DeviceParams('AC1', AirConditionerPrx.uncheckedCast(base), ac_commands))
+        self.devices_params.append(DeviceParams('AC1', AirConditionerPrx.uncheckedCast(base), commands))
 
         ac_purifier_commands = [
             Command('set-level', set_ac_level,
