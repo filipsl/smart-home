@@ -7,33 +7,43 @@ import Home.Kitchen.VolumeRangeError;
 import com.zeroc.Ice.Current;
 
 public class RefrigeratorWithRadioImpl extends RefrigeratorImpl implements RefrigeratorWithRadio {
+
+    private double freq = 97;
+    private short level = 30;
+    protected PowerState radioPowerState = PowerState.OFF;
+
+
     @Override
     public void setFrequency(double freq, Current current) throws FrequencyRangeError {
-
+        if (freq < 88 || freq > 108)
+            throw new FrequencyRangeError("Invalid frequency value.", 88, 108);
+        this.freq = freq;
     }
 
     @Override
     public double getFrequency(Current current) {
-        return 0;
+        return freq;
     }
 
     @Override
     public PowerState getRadioPowerState(Current current) {
-        return null;
+        return radioPowerState;
     }
 
     @Override
     public void setRadioPowerState(PowerState powerState, Current current) {
-
+        radioPowerState = powerState;
     }
 
     @Override
     public void setVolumeLevel(short level, Current current) throws VolumeRangeError {
-
+        if (level < 0 || level > 100)
+            throw new VolumeRangeError("Invalid volume level value.", (short) 0, (short) 100);
+        this.level = level;
     }
 
     @Override
     public short getVolumeLevel(Current current) {
-        return 0;
+        return level;
     }
 }
