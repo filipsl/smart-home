@@ -38,7 +38,6 @@ public class Server {
             status = 1;
         }
         if (communicator != null) {
-            // Clean up
             try {
                 communicator.destroy();
             } catch (Exception e) {

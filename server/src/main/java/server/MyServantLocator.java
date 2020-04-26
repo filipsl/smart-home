@@ -38,7 +38,7 @@ public class MyServantLocator implements ServantLocator {
             }
         } else if (category.equals("kitchen")) {
             switch (name) {
-                case "oven":
+                case "oven1":
                     servant = new OvenImpl();
                     break;
                 case "fridge1":
