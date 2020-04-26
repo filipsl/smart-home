@@ -4,7 +4,7 @@ import Home.*;
 import Home.AC.AirConditioner;
 import com.zeroc.Ice.Current;
 import devices.DeviceImpl;
-import utils.TemperatureConverter;
+import utils.TemperatureUtil;
 
 public class AirConditionerImpl extends DeviceImpl implements AirConditioner {
 
@@ -15,17 +15,15 @@ public class AirConditionerImpl extends DeviceImpl implements AirConditioner {
     @Override
     public void setTargetTemperature(Temperature temp, Current current) throws TemperatureRangeError {
 
-        if (temp.unit == TempUnit.CELSIUS) {
-            if (temp.value > 20 || temp.value < 10) {
+
+        if (!TemperatureUtil.tempInRange(temp, 10, 20, TempUnit.CELSIUS)) {
+            if (temp.unit == TempUnit.CELSIUS)
                 throw new TemperatureRangeError("Invalid temperature value.", 10, 20, TempUnit.CELSIUS);
-            }
-        } else {
-            if (temp.value > TemperatureConverter.CtoF(20) || temp.value < TemperatureConverter.CtoF(10)) {
+            else
                 throw new TemperatureRangeError("Invalid temperature value.",
-                        TemperatureConverter.CtoF(10),
-                        TemperatureConverter.CtoF(20),
+                        TemperatureUtil.CtoF(10),
+                        TemperatureUtil.CtoF(20),
                         TempUnit.FAHRENHEIT);
-            }
         }
         targetTemp = temp;
     }
@@ -60,10 +58,10 @@ public class AirConditionerImpl extends DeviceImpl implements AirConditioner {
 
         //Simulate elapsing time
         long stopTime = System.nanoTime();
-        long elapsed_seconds = (stopTime - startTime)/1000000000;
+        long elapsed_seconds = (stopTime - startTime) / 1000000000;
 
         //For simulation count duration minutes as seconds
-        if(autoStartParams.durationMins < elapsed_seconds){
+        if (autoStartParams.durationMins < elapsed_seconds) {
             autoStartParams = null;
             super.powerState = PowerState.OFF;
             throw new NotDefinedError("Auto start parameters were not specified.");
