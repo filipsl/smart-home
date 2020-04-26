@@ -28,7 +28,6 @@ public class MyServantLocator implements ServantLocator {
         String name = current.id.name;
 
         DeviceImpl servant = null;
-        Server.logger.info("ServantLocator is looking for servant - name: " + name + ", category: " + category);
 
         if (category.equals("ac")) {
             if (name.equals("ac1")) {
