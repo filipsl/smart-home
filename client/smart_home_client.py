@@ -83,6 +83,8 @@ class SmartHomeClient:
         commands = base_commands + ac_commands
         base = communicator.propertyToProxy('AC1.Proxy')
         self.devices_params.append(DeviceParams('AC1', AirConditionerPrx.uncheckedCast(base), commands))
+        base = communicator.propertyToProxy('AC2.Proxy')
+        self.devices_params.append(DeviceParams('AC2', AirConditionerPrx.uncheckedCast(base), commands))
 
         ac_purifier_commands = [
             Command('set-level', set_ac_level,
@@ -111,6 +113,8 @@ class SmartHomeClient:
         commands = base_commands + oven_commands
         base = communicator.propertyToProxy('Oven1.Proxy')
         self.devices_params.append(DeviceParams('Oven1', OvenPrx.uncheckedCast(base), commands))
+        base = communicator.propertyToProxy('Oven2.Proxy')
+        self.devices_params.append(DeviceParams('Oven2', OvenPrx.uncheckedCast(base), commands))
 
     def get_devices_string(self):
         av_devices = 'Available devices: '

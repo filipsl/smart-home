@@ -5,5 +5,7 @@ Fridge1.Proxy=kitchen/fridge1:tcp -h localhost -p 10000:udp -h localhost -p 1000
 FridgeR1.Proxy=kitchen/fridge-radio1:tcp -h localhost -p 10000:udp -h localhost -p 10000
 FridgeF1.Proxy=kitchen/fridge-freezer1:tcp -h localhost -p 10000:udp -h localhost -p 10000
 AC1.Proxy=ac/ac1:tcp -h localhost -p 10000:udp -h localhost -p 10000
+AC2.Proxy=ac/ac2:tcp -h localhost -p 10000:udp -h localhost -p 10000
 ACP1.Proxy=ac/ac-purifier1:tcp -h localhost -p 10000:udp -h localhost -p 10000
 Oven1.Proxy=kitchen/oven1:tcp -h localhost -p 10000:udp -h localhost -p 10000
+Oven2.Proxy=kitchen/oven2:tcp -h localhost -p 10000:udp -h localhost -p 10000

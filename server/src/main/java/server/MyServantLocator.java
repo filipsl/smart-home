@@ -30,14 +30,19 @@ public class MyServantLocator implements ServantLocator {
         DeviceImpl servant = null;
 
         if (category.equals("ac")) {
-            if (name.equals("ac1")) {
-                servant = new AirConditionerImpl();
-            } else if (name.equals("ac-purifier1")) {
-                servant = new AirConditionerPurifierImpl();
+            switch (name) {
+                case "ac1":
+                case "ac2":
+                    servant = new AirConditionerImpl();
+                    break;
+                case "ac-purifier1":
+                    servant = new AirConditionerPurifierImpl();
+                    break;
             }
         } else if (category.equals("kitchen")) {
             switch (name) {
                 case "oven1":
+                case "oven2":
                     servant = new OvenImpl();
                     break;
                 case "fridge1":
