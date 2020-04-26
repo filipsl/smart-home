@@ -21,13 +21,4 @@ public class RefrigeratorImpl extends DeviceImpl implements Refrigerator {
 
     }
 
-    @Override
-    public PowerState getPowerState(Current current) {
-        return null;
-    }
-
-    @Override
-    public void setPowerState(PowerState powerState, Current current) {
-
-    }
 }

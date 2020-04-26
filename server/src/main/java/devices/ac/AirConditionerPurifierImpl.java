@@ -5,51 +5,29 @@ import Home.AC.AirConditionerPurifier;
 import Home.AC.PollutionLevel;
 import com.zeroc.Ice.Current;
 
+import java.util.Random;
+
 public class AirConditionerPurifierImpl extends AirConditionerImpl implements AirConditionerPurifier {
 
+    private PollutionLevel pollutionTreshLevel = PollutionLevel.MEDIUM;
 
     @Override
     public void setPollutionTreshLevel(PollutionLevel pollutionLevel, Current current) {
-
+        pollutionTreshLevel = pollutionLevel;
     }
 
     @Override
     public PollutionLevel getPollutionTreshLevel(Current current) {
-        return null;
+        return pollutionTreshLevel;
     }
 
     @Override
     public boolean isPurifyingOn(Current current) throws SwitchedOffError {
-        return false;
-    }
+        if (super.powerState == PowerState.OFF) {
+            throw new SwitchedOffError("AC is switched off");
+        }
 
-    @Override
-    public void setTargetTemperature(Temperature temp, Current current) throws TemperatureRangeError {
-
-    }
-
-    @Override
-    public Temperature getTargetTemperature(Current current) {
-        return null;
-    }
-
-    @Override
-    public void setAutoStart(AutoStartParams autoStartParams, Current current) throws DurationError, TimeRangeError {
-
-    }
-
-    @Override
-    public AutoStartParams getAutoStartParams(Current current) throws NotDefinedError {
-        return null;
-    }
-
-    @Override
-    public PowerState getPowerState(Current current) {
-        return null;
-    }
-
-    @Override
-    public void setPowerState(PowerState powerState, Current current) {
-
+        Random rand = new Random();
+        return rand.nextInt(2) != 0;
     }
 }

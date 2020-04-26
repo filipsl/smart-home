@@ -24,29 +24,4 @@ public class RefrigeratorWithFreezerImpl extends RefrigeratorImpl implements Ref
     public void setTurboFreezing(boolean turboFreezing, Current current) throws SwitchedOffError {
 
     }
-
-    @Override
-    public void setFridgeTemperature(Temperature temperature, Current current) throws TemperatureRangeError {
-
-    }
-
-    @Override
-    public Temperature getFridgeTemperature(Current current) throws SwitchedOffError {
-        return null;
-    }
-
-    @Override
-    public void setTempUnit(TempUnit unit, Current current) {
-
-    }
-
-    @Override
-    public PowerState getPowerState(Current current) {
-        return null;
-    }
-
-    @Override
-    public void setPowerState(PowerState powerState, Current current) {
-
-    }
 }
