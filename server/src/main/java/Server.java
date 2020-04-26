@@ -10,17 +10,14 @@ public class Server {
 
     private List<DeviceImpl> deviceImplList = new LinkedList<>();
 
-    public void start() {
+    public void start(String[] args) {
         int status = 0;
         Communicator communicator = null;
 
         try {
-            communicator = Util.initialize();
+            communicator = Util.initialize(args);
 
-            //TODO use config file to define adapter parameters
-            //Ice.ObjectAdapter adapter = communicator.createObjectAdapter("Adapter1");
-
-            ObjectAdapter adapter = communicator.createObjectAdapterWithEndpoints("Adapter1", "tcp -h localhost -p 10000:udp -h localhost -p 10000");
+            ObjectAdapter adapter = communicator.createObjectAdapter("Adapter1");
 
             MyServantLocator myServantLocator = new MyServantLocator(deviceImplList, adapter);
             adapter.addServantLocator(myServantLocator, "");
@@ -37,7 +34,6 @@ public class Server {
         }
         if (communicator != null) {
             // Clean up
-            //
             try {
                 communicator.destroy();
             } catch (Exception e) {
@@ -51,6 +47,6 @@ public class Server {
 
     public static void main(String[] args) {
         Server server = new Server();
-        server.start();
+        server.start(args);
     }
 }
