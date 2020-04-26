@@ -212,7 +212,7 @@ def get_auto(device, args):
     try:
         params = device.getAutoStartParams()
         print("Start time: {:02d}:{:02d}  duration: {:} min".format(params.timeOfDay.hour, params.timeOfDay.minute,
-                                                           params.durationMins))
+                                                                    params.durationMins))
     except Exception as e:
         print(e)
 
