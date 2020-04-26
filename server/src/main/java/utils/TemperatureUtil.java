@@ -29,4 +29,16 @@ public class TemperatureUtil {
         }
         return false;
     }
+
+    public static void convertTemp(TempUnit unit, Temperature temperature) {
+        if (temperature.unit != unit) {
+            if (unit == TempUnit.CELSIUS) {
+                temperature.unit = TempUnit.CELSIUS;
+                temperature.value = TemperatureUtil.FtoC(temperature.value);
+            } else {
+                temperature.unit = TempUnit.FAHRENHEIT;
+                temperature.value = TemperatureUtil.CtoF(temperature.value);
+            }
+        }
+    }
 }
