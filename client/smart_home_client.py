@@ -6,11 +6,22 @@ import Ice
 from Home.Kitchen import RefrigeratorPrx, RefrigeratorWithFreezerPrx, RefrigeratorWithRadioPrx, OvenPrx
 from Home.AC import AirConditionerPrx, AirConditionerPurifierPrx
 from Home import PowerState
+from smart_home_commands import get_power_state, set_power_state, set_fridge_temp, set_temp_unit
+
+
+class Command:
+    def __init__(self, command, callback, desc, args_num):
+        self.command = command
+        self.callback = callback
+        self.desc = desc
+        self.args_num = args_num
+
 
 class DeviceParams:
     def __init__(self, name, device_prx):
         self.name = name
         self.device_prx = device_prx
+        self.commands = []
 
 
 class SmartHomeClient:
@@ -19,12 +30,38 @@ class SmartHomeClient:
         self.devices_params = []
 
     def init_device_params(self, communicator):
+        base_commands = [Command('pstate', get_power_state, 'check power state', 0),
+                         Command('set-pstate', set_power_state, 'set power state to ON or OFF: set OFF', 1)]
+
+        fridge_commands = [
+            Command('set-temp', set_fridge_temp, 'set fridge temperature with unit C or F: set-temp 6 C', 2),
+            Command('get-temp', set_fridge_temp, 'get fridge temperature', 0),
+            Command('set-unit', set_temp_unit, 'set device temperature unit C or F: set-unit C', 0)
+        ]
+
         base = communicator.propertyToProxy('Fridge1.Proxy')
         self.devices_params.append(DeviceParams('Fridge1', device_prx=RefrigeratorPrx.uncheckedCast(base)))
+
+
+        # TODO Implement methods below
+
+        fridge_freezer_commands = [
+            Command('set-f-temp', set_fridge_temp, 'set freezer temperature with unit C or F: set-temp 6 C', 2),
+            Command('get-f-temp', set_fridge_temp, 'get freezer temperature', 0),
+            Command('set-turbo', set_fridge_temp, 'set turbo freezing mode to ON or OFF: set-turbo ON', 1),
+            Command('get-turbo', set_temp_unit, 'check state of turbo freezing mode', 0)
+        ]
 
         base = communicator.propertyToProxy('FridgeF1.Proxy')
         self.devices_params.append(
             DeviceParams('FridgeF1', device_prx=RefrigeratorWithFreezerPrx.uncheckedCast(base)))
+
+        fridge_radio_commands = [
+            Command('set-f-temp', set_fridge_temp, 'set freezer temperature with unit C or F: set-temp 6 C', 2),
+            Command('get-f-temp', set_fridge_temp, 'get freezer temperature', 0),
+            Command('set-turbo', set_fridge_temp, 'set turbo freezing mode to ON or OFF: set-turbo ON', 1),
+            Command('get-turbo', set_temp_unit, 'check state of turbo freezing mode', 0)
+        ]
 
         base = communicator.propertyToProxy('FridgeR1.Proxy')
         self.devices_params.append(
@@ -40,10 +77,10 @@ class SmartHomeClient:
         self.devices_params.append(DeviceParams('Oven1', device_prx=OvenPrx.uncheckedCast(base)))
 
     def print_devices(self):
-        print('Available devices:', end=' ')
+        av_devices = 'Available devices: '
         for device_params in self.devices_params:
-            print(device_params.name, end=' ')
-        print()
+            av_devices += device_params.name + ' '
+        logging.info(av_devices)
 
     def run_console(self):
         self.print_devices()
@@ -53,14 +90,16 @@ class SmartHomeClient:
             text = input(prefix + prompt_msg)
             if text:
                 args = text.split()
-                if args[0] == 'exit':
-                    if prefix:
-                        prefix = ''
-                    else:
+                if not prefix:
+                    if args[0] == 'exit':
                         self.is_running = False
-                elif args[0] == 'test':
-                    print(self.devices_params[0].device_prx.getPowerState())
-                    print(self.devices_params[0].device_prx.setPowerState(PowerState.ON))
+                    elif args[0] == 'help':
+                        print('device_id - enter device control mode')
+                        print('help - show help')
+                        print('exit - shut down client')
+                else:
+                    pass
+            # todo device control mode
 
     def run(self):
         logging.info('Starting smart home client...')
